@@ -39,11 +39,13 @@ tank2_angle = 135
 tank1_health = TANK_HEALTH
 tank2_health = TANK_HEALTH
 
+
 # Function to rotate an image around its center
 def rotate(image, angle):
     rotated_image = pygame.transform.rotate(image, angle)
     new_rect = rotated_image.get_rect(center=image.get_rect(center=(tank1_x, tank1_y)).center)
     return rotated_image, new_rect
+
 
 # Load tank images
 tank1_image = pygame.image.load("tank1.png")
@@ -69,6 +71,11 @@ while running:
 
     # Get the keys currently being pressed
     keys = pygame.key.get_pressed()
+
+    bullet_x = 10
+    bullet_y = 10
+    bullet_dx = 1
+    bullet_dy = 1
 
     # Tank 1 controls
     if keys[pygame.K_a]:
