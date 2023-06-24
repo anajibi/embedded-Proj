@@ -1,4 +1,3 @@
-
 import pygame
 import math
 
@@ -41,45 +40,30 @@ tank2_angle = 135
 tank1_health = TANK_HEALTH
 tank2_health = TANK_HEALTH
 
+
 # Function to rotate an image around its center
 def rotate(image, angle):
     rotated_image = pygame.transform.rotate(image, angle)
     new_rect = rotated_image.get_rect(center=image.get_rect(center=(tank1_x, tank1_y)).center)
     return rotated_image, new_rect
 
-# Generate the curvy ground shape
-# def generate_ground():
-#     ground_points = []
-#     for x in range(0, WIDTH + 1):
-#         y = int(HEIGHT * 0.8 + math.sin(math.radians(x / WIDTH * 360)) * 100)
-#         ground_points.append((x, y))
-#     return ground_points
-#
 
-# Generate the half-circle ground shape
-# def generate_ground():
-#     ground_points = []
-#     radius = WIDTH // 2  # Radius of the half-circle
-#     center_x = WIDTH // 2  # X-coordinate of the center of the half-circle
-#     center_y = HEIGHT  # Y-coordinate of the center of the half-circle
-#
-#     for x in range(center_x - radius, center_x + radius + 1):
-#         y = center_y - math.sqrt(radius ** 2 - (x - center_x) ** 2)
-#         ground_points.append((x, int(y)))
-#
-#     return ground_points
-
-# Generate the cosine ground shape
 def generate_ground():
     ground_points = []
     amplitude = HEIGHT // 4  # Amplitude of the cosine wave
     frequency = 2  # Frequency of the cosine wave
 
     for x in range(0, WIDTH + 1):
-        y = int(HEIGHT * 0.75 + amplitude * math.cos(math.radians(x / WIDTH * 360 * frequency)))
+        y = int(HEIGHT * 0.75 + amplitude * (
+                math.cos(math.radians(x / WIDTH * 360 * frequency))
+                +
+                math.sin(math.radians(x / WIDTH * 360 * 2 / 3 * frequency)))
+                )
+        y = min(600, y)
         ground_points.append((x, y))
 
     return ground_points
+
 
 # Load tank images
 tank1_image = pygame.image.load("tank1.png")
@@ -126,6 +110,7 @@ while running:
         # Keep tank 1 within the boundaries of the ground
         tank1_x = max(0, min(WIDTH, tank1_x))
         tank1_y = max(ground_points[int(tank1_x)][1], tank1_y)
+        tank1_y = min(ground_points[int(tank1_x)][1] + TANK_HEIGHT // 2, tank1_y)
     if keys[pygame.K_SPACE]:
         # Shoot bullet from tank 1
         bullet_x = tank1_x + math.cos(math.radians(tank1_angle)) * (TANK_WIDTH // 2)
@@ -144,6 +129,7 @@ while running:
         # Keep tank 2 within the boundaries of the ground
         tank2_x = max(0, min(WIDTH, tank2_x))
         tank2_y = max(ground_points[int(tank2_x)][1], tank2_y)
+        tank2_y = min(ground_points[int(tank2_x)][1] + TANK_HEIGHT // 2, tank2_y)
     if keys[pygame.K_RETURN]:
         # Shoot bullet from tank 2
         bullet_x = tank2_x + math.cos(math.radians(tank2_angle)) * (TANK_WIDTH // 2)
