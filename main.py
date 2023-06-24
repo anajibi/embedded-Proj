@@ -1,5 +1,7 @@
 import pygame
 import math
+from Color import *
+from Tank import Tank
 
 # Initialize Pygame
 pygame.init()
@@ -11,11 +13,7 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Two-Player Tank Game")
 
 # Define colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
-GREEN = (0, 255, 0)
+
 
 # Define tank properties
 TANK_WIDTH = 50
@@ -28,24 +26,9 @@ TANK_HEALTH = 100
 BULLET_RADIUS = 5
 BULLET_SPEED = 10
 
-# Define the initial positions and directions of the tanks
-tank1_x = 100
-tank1_y = HEIGHT - TANK_HEIGHT // 2
-tank1_angle = 45
-tank2_x = WIDTH - 100
-tank2_y = HEIGHT - TANK_HEIGHT // 2
-tank2_angle = 135
+tank1 = Tank("tank2.png", 100, HEIGHT - TANK_HEIGHT // 2, 45)
+tank2 = Tank("tank1.png", WIDTH - 100, HEIGHT - TANK_HEIGHT // 2, -45)
 
-# Define the initial health of the tanks
-tank1_health = TANK_HEALTH
-tank2_health = TANK_HEALTH
-
-
-# Function to rotate an image around its center
-def rotate(image, angle):
-    rotated_image = pygame.transform.rotate(image, angle)
-    new_rect = rotated_image.get_rect(center=image.get_rect(center=(tank1_x, tank1_y)).center)
-    return rotated_image, new_rect
 
 
 def generate_ground():
@@ -64,12 +47,6 @@ def generate_ground():
 
     return ground_points
 
-
-# Load tank images
-tank1_image = pygame.image.load("tank1.png")
-tank1_image = pygame.transform.scale(tank1_image, (TANK_WIDTH, TANK_HEIGHT))
-tank2_image = pygame.image.load("tank2.png")
-tank2_image = pygame.transform.scale(tank2_image, (TANK_WIDTH, TANK_HEIGHT))
 
 # Load bullet image
 bullet_image = pygame.Surface((BULLET_RADIUS * 2, BULLET_RADIUS * 2))
@@ -101,41 +78,41 @@ while running:
 
     # Tank 1 controls
     if keys[pygame.K_a]:
-        tank1_angle += TANK_TURN_SPEED
+        tank1.angle += TANK_TURN_SPEED
     if keys[pygame.K_d]:
-        tank1_angle -= TANK_TURN_SPEED
+        tank1.angle -= TANK_TURN_SPEED
     if keys[pygame.K_w]:
-        tank1_x += math.cos(math.radians(tank1_angle)) * TANK_SPEED
-        tank1_y -= math.sin(math.radians(tank1_angle)) * TANK_SPEED
+        tank1.x += math.cos(math.radians(tank1.angle)) * TANK_SPEED
+        tank1.y -= math.sin(math.radians(tank1.angle)) * TANK_SPEED
         # Keep tank 1 within the boundaries of the ground
-        tank1_x = max(0, min(WIDTH, tank1_x))
-        tank1_y = max(ground_points[int(tank1_x)][1], tank1_y)
-        tank1_y = min(ground_points[int(tank1_x)][1] + TANK_HEIGHT // 2, tank1_y)
+        tank1.x = max(0, min(WIDTH, tank1.x))
+        tank1.y = max(ground_points[int(tank1.x)][1], tank1.y)
+        tank1.y = min(ground_points[int(tank1.x)][1] + TANK_HEIGHT // 2, tank1.y)
     if keys[pygame.K_SPACE]:
         # Shoot bullet from tank 1
-        bullet_x = tank1_x + math.cos(math.radians(tank1_angle)) * (TANK_WIDTH // 2)
-        bullet_y = tank1_y - math.sin(math.radians(tank1_angle)) * (TANK_WIDTH // 2)
-        bullet_dx = math.cos(math.radians(tank1_angle)) * BULLET_SPEED
-        bullet_dy = -math.sin(math.radians(tank1_angle)) * BULLET_SPEED
+        bullet_x = tank1.x + math.cos(math.radians(tank1.angle)) * (TANK_WIDTH // 2)
+        bullet_y = tank1.y - math.sin(math.radians(tank1.angle)) * (TANK_WIDTH // 2)
+        bullet_dx = math.cos(math.radians(tank1.angle)) * BULLET_SPEED
+        bullet_dy = -math.sin(math.radians(tank1.angle)) * BULLET_SPEED
 
     # Tank 2 controls
     if keys[pygame.K_LEFT]:
-        tank2_angle += TANK_TURN_SPEED
+        tank2.angle += TANK_TURN_SPEED
     if keys[pygame.K_RIGHT]:
-        tank2_angle -= TANK_TURN_SPEED
+        tank2.angle -= TANK_TURN_SPEED
     if keys[pygame.K_UP]:
-        tank2_x += math.cos(math.radians(tank2_angle)) * TANK_SPEED
-        tank2_y -= math.sin(math.radians(tank2_angle)) * TANK_SPEED
+        tank2.x += math.cos(math.radians(tank2.angle)) * TANK_SPEED
+        tank2.y -= math.sin(math.radians(tank2.angle)) * TANK_SPEED
         # Keep tank 2 within the boundaries of the ground
-        tank2_x = max(0, min(WIDTH, tank2_x))
-        tank2_y = max(ground_points[int(tank2_x)][1], tank2_y)
-        tank2_y = min(ground_points[int(tank2_x)][1] + TANK_HEIGHT // 2, tank2_y)
+        tank2.x = max(0, min(WIDTH, tank2.x))
+        tank2.y = max(ground_points[int(tank2.x)][1], tank2.y)
+        tank2.y = min(ground_points[int(tank2.x)][1] + TANK_HEIGHT // 2, tank2.y)
     if keys[pygame.K_RETURN]:
         # Shoot bullet from tank 2
-        bullet_x = tank2_x + math.cos(math.radians(tank2_angle)) * (TANK_WIDTH // 2)
-        bullet_y = tank2_y - math.sin(math.radians(tank2_angle)) * (TANK_WIDTH // 2)
-        bullet_dx = math.cos(math.radians(tank2_angle)) * BULLET_SPEED
-        bullet_dy = -math.sin(math.radians(tank2_angle)) * BULLET_SPEED
+        bullet_x = tank2.x + math.cos(math.radians(tank2.angle)) * (TANK_WIDTH // 2)
+        bullet_y = tank2.y - math.sin(math.radians(tank2.angle)) * (TANK_WIDTH // 2)
+        bullet_dx = math.cos(math.radians(tank2.angle)) * BULLET_SPEED
+        bullet_dy = -math.sin(math.radians(tank2.angle)) * BULLET_SPEED
 
     # Move the bullet
     bullet_x += bullet_dx
@@ -148,10 +125,8 @@ while running:
     pygame.draw.polygon(window, GREEN, ground_points)
 
     # Draw the tanks
-    tank1_image_rotated, tank1_rect = rotate(tank1_image, tank1_angle)
-    tank2_image_rotated, tank2_rect = rotate(tank2_image, tank2_angle)
-    window.blit(tank1_image_rotated, tank1_rect.topleft)
-    window.blit(tank2_image_rotated, tank2_rect.topleft)
+    tank1.draw(window)
+    tank2.draw(window)
 
     # Draw the bullets
     pygame.draw.circle(window, RED, (int(bullet_x), int(bullet_y)), BULLET_RADIUS)
