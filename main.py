@@ -48,11 +48,37 @@ def rotate(image, angle):
     return rotated_image, new_rect
 
 # Generate the curvy ground shape
+# def generate_ground():
+#     ground_points = []
+#     for x in range(0, WIDTH + 1):
+#         y = int(HEIGHT * 0.8 + math.sin(math.radians(x / WIDTH * 360)) * 100)
+#         ground_points.append((x, y))
+#     return ground_points
+#
+
+# Generate the half-circle ground shape
+# def generate_ground():
+#     ground_points = []
+#     radius = WIDTH // 2  # Radius of the half-circle
+#     center_x = WIDTH // 2  # X-coordinate of the center of the half-circle
+#     center_y = HEIGHT  # Y-coordinate of the center of the half-circle
+#
+#     for x in range(center_x - radius, center_x + radius + 1):
+#         y = center_y - math.sqrt(radius ** 2 - (x - center_x) ** 2)
+#         ground_points.append((x, int(y)))
+#
+#     return ground_points
+
+# Generate the cosine ground shape
 def generate_ground():
     ground_points = []
+    amplitude = HEIGHT // 4  # Amplitude of the cosine wave
+    frequency = 2  # Frequency of the cosine wave
+
     for x in range(0, WIDTH + 1):
-        y = int(HEIGHT * 0.8 + math.sin(math.radians(x / WIDTH * 360)) * 100)
+        y = int(HEIGHT * 0.75 + amplitude * math.cos(math.radians(x / WIDTH * 360 * frequency)))
         ground_points.append((x, y))
+
     return ground_points
 
 # Load tank images
