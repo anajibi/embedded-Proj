@@ -8,6 +8,8 @@ from AimIndicator import AimIndicator
 from Bullet import Bullet
 from Color import BLACK, GREEN, YELLOW, RED
 from Config import GAME_WIDTH, GAME_HEIGHT, FPS
+from SoundDetector import SoundDetector
+from SpeedDetector import SpeedDetector
 from Tank import Tank, TANK_HEIGHT
 
 
@@ -24,6 +26,8 @@ class Game:
         self.window = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
         pygame.display.set_caption("Two-Player Tank Game")
 
+        self.sound_detector = SoundDetector()
+        self.speed_detector = SpeedDetector()
         self.generate_ground()
 
     def generate_ground(self):
@@ -57,6 +61,8 @@ class Game:
 
         bullet = None
 
+        self.sound_detector.turn_on()
+
         while running:
             clock.tick(FPS)
 
@@ -76,30 +82,34 @@ class Game:
                     turn_array[turn].right()
 
             if state == GameState.CHOOSE_ANGLE:
-                if keys[pygame.K_SPACE]:
+                if self.sound_detector.is_sound_detected():
+                    self.sound_detector.turn_off()
+                    self.speed_detector.turn_on()
                     state = GameState.CHOOSE_POWER
 
                 aim_indicator.indicate(self.window)
 
             elif state == GameState.CHOOSE_POWER:
-                if keys[pygame.K_a]:
-                    state = GameState.SHOOT
+                if self.speed_detector.is_speed_detected():
                     bullet = Bullet(turn_array[turn].x, turn_array[turn].y,
-                                    aim_indicator.get_shoot_angle(), 12,
+                                    aim_indicator.get_shoot_angle(),
+                                    self.speed_detector.detected_speed,
                                     self.ground_points)
-
+                    self.speed_detector.turn_off()
+                    state = GameState.SHOOT
                 aim_indicator.draw(self.window)
 
             elif state == GameState.SHOOT:
                 if bullet.hit:
                     turn = (turn + 1) % 2
-                    state = GameState.CHOOSE_ANGLE
+                    self.sound_detector.turn_on()
                     aim_indicator = AimIndicator(turn_array[turn])
                     turn_array[turn].check_hit(bullet)
+                    state = GameState.CHOOSE_ANGLE
 
                 else:
                     bullet.fire(self.window)
-                    self.indicate_power(77)  # TODO
+                    self.indicate_power(bullet.power)
 
             for tank in turn_array:
                 tank.draw(self.window)
