@@ -61,7 +61,7 @@ def detect_speed(sd: SpeedDetector):
         if time.time() - start_time > 3:
             sd.detected = True
 
-    GPIO.cleanup()
+    # GPIO.cleanup()
 
 
 def measure_distance():
