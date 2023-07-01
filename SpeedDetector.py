@@ -49,11 +49,14 @@ def detect_speed(sd: SpeedDetector):
     GPIO.setup(TRIG_PIN, GPIO.OUT)
     GPIO.setup(ECHO_PIN, GPIO.IN)
 
+    speed_list = []
+
     while sd.on:
         speed = measure_speed()
+        speed_list.append(speed)
         if speed is not None:
             print("Measured speed in while loop: " + str(speed))
-            sd.detected_speed = speed
+            sd.detected_speed = max(speed_list)
         time.sleep(0.05)
         if time.time() - start_time > 3:
             sd.detected = True
