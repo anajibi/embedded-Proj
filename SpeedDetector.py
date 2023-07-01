@@ -39,8 +39,8 @@ class SpeedDetector:
 
 def detect_speed(sd: SpeedDetector):
     # GPIO pins
-    TRIG_PIN = 17
-    ECHO_PIN = 27
+    TRIG_PIN = 4
+    ECHO_PIN = 17
 
     start_time = time.time()
 
