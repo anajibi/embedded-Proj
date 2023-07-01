@@ -43,7 +43,7 @@ class Bullet:
         self.hit_x = int(self._get_x(self.t))
         self.hit_y = int(self._get_y(self.t))
 
-        self.t += 0.2
+        self.t += 0.4
 
         if self.hit_x > GAME_WIDTH or self.hit_x < 0 \
                 or self.hit_y > GAME_HEIGHT or self.hit_y < 0:
