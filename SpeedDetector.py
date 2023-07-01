@@ -39,8 +39,8 @@ class SpeedDetector:
 
 def detect_speed(sd: SpeedDetector):
     # GPIO pins
-    TRIG_PIN = 17
-    ECHO_PIN = 27
+    TRIG_PIN = 4
+    ECHO_PIN = 17
 
     start_time = time.time()
 
@@ -59,6 +59,9 @@ def detect_speed(sd: SpeedDetector):
 
 
 def measure_distance():
+    TRIG_PIN = 4
+    ECHO_PIN = 17
+
     # Send a short pulse to trigger the ultrasonic signal
     GPIO.output(TRIG_PIN, True)
     time.sleep(0.00001)

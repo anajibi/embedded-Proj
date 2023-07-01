@@ -34,7 +34,7 @@ class SoundDetector:
 
 def detect_sound(detector: SoundDetector):
     # GPIO SETUP
-    channel = 17
+    channel = 27
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(channel, GPIO.IN)
 
