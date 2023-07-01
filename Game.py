@@ -1,4 +1,5 @@
 import math
+import time
 from enum import Enum
 from typing import List
 
@@ -84,6 +85,7 @@ class Game:
             if state == GameState.CHOOSE_ANGLE:
                 if self.sound_detector.is_sound_detected():
                     self.sound_detector.turn_off()
+                    time.sleep(0.02)
                     self.speed_detector.turn_on()
                     state = GameState.CHOOSE_POWER
 
