@@ -13,6 +13,19 @@ class SoundDetector:
         self.detected = False
         self.on = False
 
+        channel = 27
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(channel, GPIO.IN)
+
+        def callback(channel):
+            if GPIO.input(channel):
+                self.detected = True and self.on
+            else:
+                self.detected = True and self.on
+
+        GPIO.add_event_detect(channel, GPIO.BOTH, bouncetime=300)  # let us know when the pin goes HIGH or LOW
+        GPIO.add_event_callback(channel, callback)  # assign function to GPIO PIN, Run function on change
+
     def start_detection(self):
         # detect sound here and assign to self.detected
         # Create a new thread and start it
@@ -34,25 +47,11 @@ class SoundDetector:
 
 def detect_sound(detector: SoundDetector):
     # GPIO SETUP
-    channel = 27
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(channel, GPIO.IN)
-
-    def callback(channel):
-        if GPIO.input(channel):
-            detector.detected = True
-        else:
-            detector.detected = True
-
-    GPIO.add_event_detect(channel, GPIO.BOTH, bouncetime=300)  # let us know when the pin goes HIGH or LOW
-    GPIO.add_event_callback(channel, callback)  # assign function to GPIO PIN, Run function on change
 
     # infinite loop
     while detector.on:
         time.sleep(1)
 
-    GPIO.remove_event_callback(channel, callback)
-    # GPIO.cleanup()  # clean up this should be tested TODO
 
 
 
