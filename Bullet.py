@@ -4,7 +4,7 @@ import numpy as np
 import pygame
 
 import Color
-from Config import BULLET_RADIUS, GRAVITY, GAME_WIDTH, FPS
+from Config import BULLET_RADIUS, GRAVITY, GAME_WIDTH, FPS, GAME_HEIGHT
 
 
 class Bullet:
@@ -44,6 +44,10 @@ class Bullet:
         self.hit_y = int(self._get_y(self.t))
 
         self.t += 0.1
+
+        if self.hit_x > GAME_WIDTH or self.hit_x < 0 \
+                or self.hit_y > GAME_HEIGHT or self.hit_y < 0:
+            self.hit = True
 
         if GAME_WIDTH > self.hit_x > 0:
             if self.hit_y > self.ground_points[self.hit_x][1]:
