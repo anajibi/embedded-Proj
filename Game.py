@@ -87,6 +87,7 @@ class Game:
                     self.sound_detector.turn_off()
                     time.sleep(0.02)
                     self.speed_detector.turn_on()
+                    time.sleep(0.02)
                     state = GameState.CHOOSE_POWER
 
                 aim_indicator.indicate(self.window)

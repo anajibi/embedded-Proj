@@ -51,7 +51,10 @@ def detect_speed(sd: SpeedDetector):
 
     speed_list = []
 
-    while sd.on:
+    def check_still_running(sd):
+        return sd.on
+
+    while check_still_running(sd):
         speed = measure_speed()
         speed_list.append(speed)
         if speed is not None:
