@@ -52,8 +52,8 @@ class Game:
 
         turn = 0
         turn_array: List[Tank] = [
-            Tank("tank2.png", 100, GAME_HEIGHT - TANK_HEIGHT // 2, 45, self.ground_points),
-            Tank("tank1.png", GAME_WIDTH - 100, GAME_HEIGHT - TANK_HEIGHT // 2, -45, self.ground_points)
+            Tank("./tank2.png", 100, GAME_HEIGHT - TANK_HEIGHT // 2, 45, self.ground_points),
+            Tank("./tank1.png", GAME_WIDTH - 100, GAME_HEIGHT - TANK_HEIGHT // 2, -45, self.ground_points)
         ]
 
         state = GameState.CHOOSE_ANGLE
