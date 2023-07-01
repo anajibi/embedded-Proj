@@ -91,6 +91,7 @@ class Game:
 
             elif state == GameState.CHOOSE_POWER:
                 if self.speed_detector.is_speed_detected():
+                    print("Power detected: ", self.speed_detector.detected_speed)
                     bullet = Bullet(turn_array[turn].x, turn_array[turn].y,
                                     aim_indicator.get_shoot_angle(),
                                     self.speed_detector.detected_speed,
