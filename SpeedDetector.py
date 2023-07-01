@@ -42,6 +42,8 @@ def detect_speed(sd: SpeedDetector):
     TRIG_PIN = 17
     ECHO_PIN = 27
 
+    start_time = time.time()
+
     # Set the mode and pins
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(TRIG_PIN, GPIO.OUT)
@@ -50,9 +52,10 @@ def detect_speed(sd: SpeedDetector):
     while sd.on:
         speed = measure_speed()
         if speed is not None:
-            sd.detected = True
             sd.detected_speed = speed
         time.sleep(0.05)
+        if time.time() - start_time > 3:
+            sd.detected = True
 
 
 def measure_distance():
@@ -93,6 +96,6 @@ def measure_speed():
     final_distance = measure_distance()
 
     # Calculate the speed
-    speed = abs(final_distance - initial_distance) / 1.0  # Change in distance per second
+    speed = abs(final_distance - initial_distance) / 0.01  # Change in distance per second
 
     return speed
