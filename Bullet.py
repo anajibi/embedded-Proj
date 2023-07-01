@@ -49,10 +49,10 @@ class Bullet:
                 or self.hit_y > GAME_HEIGHT or self.hit_y < 0:
             self.hit = True
 
-        if GAME_WIDTH > self.hit_x > 0:
-            if self.hit_y > self.ground_points[self.hit_x][1]:
-                self.hit_y = self.ground_points[self.hit_x][1]
-                self.hit = True
+        # if GAME_WIDTH > self.hit_x > 0:
+        #     if self.hit_y > self.ground_points[self.hit_x][1]:
+        #         self.hit_y = self.ground_points[self.hit_x][1]
+        #         self.hit = True
 
     def fire(self, win):
         self.move()
