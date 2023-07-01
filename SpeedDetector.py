@@ -77,13 +77,19 @@ def measure_distance():
     GPIO.output(TRIG_PIN, False)
 
     # Wait for the echo signal
+    test = time.time()
     pulse_start = time.time()
     while GPIO.input(ECHO_PIN) == 0:
         pulse_start = time.time()
+        if time.time() - test > 0.5:
+            return None
 
+    test = time.time()
     pulse_end = time.time()
     while GPIO.input(ECHO_PIN) == 1:
         pulse_end = time.time()
+        if time.time() - test > 0.5:
+            return None
 
     # Calculate the duration of the pulse
     pulse_duration = pulse_end - pulse_start
@@ -106,6 +112,9 @@ def measure_speed():
 
     # Get the final distance
     final_distance = measure_distance()
+
+    if initial_distance is None or final_distance is None:
+        return None
 
     # Calculate the speed
     speed = abs(final_distance - initial_distance) / 0.01  # Change in distance per second
