@@ -94,7 +94,7 @@ class Game:
                     print("Power detected: ", self.speed_detector.detected_speed)
                     bullet = Bullet(turn_array[turn].x, turn_array[turn].y,
                                     aim_indicator.get_shoot_angle(),
-                                    self.speed_detector.detected_speed,
+                                    self.speed_detector.detected_speed * 3,
                                     self.ground_points)
                     self.speed_detector.turn_off()
                     state = GameState.SHOOT
