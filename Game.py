@@ -112,6 +112,7 @@ class Game:
 
                 else:
                     bullet.fire(self.window)
+                    turn_array[(turn + 1) % 2].check_hit(bullet)
                     self.indicate_power(bullet.power)
 
             for tank in turn_array:
