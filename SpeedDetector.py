@@ -61,6 +61,8 @@ def detect_speed(sd: SpeedDetector):
         if time.time() - start_time > 3:
             sd.detected = True
 
+    GPIO.cleanup()
+
 
 def measure_distance():
     TRIG_PIN = 4

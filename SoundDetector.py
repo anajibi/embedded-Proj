@@ -51,7 +51,7 @@ def detect_sound(detector: SoundDetector):
     while detector.on:
         time.sleep(1)
 
-    # GPIO.cleanup()  # clean up this should be tested TODO
+    GPIO.cleanup()  # clean up this should be tested TODO
 
 
 
