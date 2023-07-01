@@ -52,6 +52,7 @@ def detect_speed(sd: SpeedDetector):
     while sd.on:
         speed = measure_speed()
         if speed is not None:
+            print("Measured speed in while loop: " + str(speed))
             sd.detected_speed = speed
         time.sleep(0.05)
         if time.time() - start_time > 3:
@@ -100,5 +101,7 @@ def measure_speed():
 
     # Calculate the speed
     speed = abs(final_distance - initial_distance) / 0.01  # Change in distance per second
+
+    print("Measured speed: " + str(speed))
 
     return speed
